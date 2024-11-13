@@ -8,6 +8,23 @@ endif()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
+
+# uncomment the following section in order to fill in
+# further dependencies manually.
+# find_package(<dependency> REQUIRED)
+
+add_executable(joystick_control src/joystick.cpp)
+target_include_directories(joystick_control PUBLIC
+	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+	$<INSTALL_INTERFACE:include/${PROJECT_NAME}>)
+target_compile_features(joystick_control PUBLIC c_std_99 cxx_std_17)
+
+ament_target_dependencies(joystick_control rclcpp geometry_msgs sensor_msgs)
+
+install(TARGETS joystick_control
+	DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
